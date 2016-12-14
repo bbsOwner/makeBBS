@@ -11,3 +11,9 @@
 * 2017/04/01までに作成する。
 
 ---
+
+[Ruby on Rails 5.0公式](http://railsguides.jp/5_0_release_notes.html)
+
+[React公式](https://facebook.github.io/react/)
+
+---
