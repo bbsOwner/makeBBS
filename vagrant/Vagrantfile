@@ -1,0 +1,35 @@
+Vagrant.configure(2) do |config|
+  config.vm.box = "bento/centos-7.3"
+  config.ssh.forward_agent = true
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
+  config.vm.synced_folder '../', '/makeBBS',
+    :create => true,
+    :owner => 'root', :group => 'root',
+    :mount_options => ["dmode=777,fmode=777"]
+ 
+  config.vm.provision :shell, inline: <<-SHELL
+    yum update -y
+    yum install -y epel-release
+    yum install -y http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+    yum install -y git ImageMagick ImageMagick-devel gcc-c++ glibc-headers openssl-devel readline libyaml-devel readline-devel zlib zlib-devel mysql-community-server mysql-community-devel libffi-devel libxml2 libxslt libxml2-devel libxslt-devel nodejs kernel-devel sqlite-devel
+    systemctl stop firewalld
+    systemctl disable firewalld
+    systemctl enable mysqld.service
+    systemctl start mysqld.service
+    /usr/bin/mysqladmin -u root password ''
+  SHELL
+ 
+  config.vm.provision :shell, privileged: false, inline: <<-SHELL
+    ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+    sudo echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> /home/vagrant/.ssh/config
+    sudo chmod 600 /home/vagrant/.ssh/config
+    git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+    git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+    echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+    ~/.rbenv/bin/rbenv install 2.3.4
+    ~/.rbenv/bin/rbenv global 2.3.4
+    ~/.rbenv/bin/rbenv exec gem i bundler
+    cd /makeBBS && ~/.rbenv/bin/rbenv exec bundle install --path vendor/bundle && ~/.rbenv/bin/rbenv exec bundle exec rake db:create db:migrate db:seed
+  SHELL
+end
