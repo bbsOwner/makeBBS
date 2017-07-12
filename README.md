@@ -22,3 +22,27 @@ makeBBS
 - 2017年9月末まで Vagrantを使った開発環境の構築
 - 2017年12月末まで CI(継続的インテグレーション）を実施できる環境の構築（テストコードを書く）
 
+---
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
