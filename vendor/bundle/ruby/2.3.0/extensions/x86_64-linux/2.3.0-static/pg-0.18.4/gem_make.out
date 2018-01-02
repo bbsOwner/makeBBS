@@ -1,5 +1,5 @@
 current directory: /makeBBS/vendor/bundle/ruby/2.3.0/gems/pg-0.18.4/ext
-/home/vagrant/.rbenv/versions/2.3.4/bin/ruby -r ./siteconf20171120-1584-1ahtdt.rb extconf.rb
+/home/vagrant/.rbenv/versions/2.3.4/bin/ruby -r ./siteconf20180102-3715-15bth26.rb extconf.rb
 checking for pg_config... no
 No pg_config... trying anyway. If building fails, please try again with
  --with-pg-config=/path/to/pg_config
